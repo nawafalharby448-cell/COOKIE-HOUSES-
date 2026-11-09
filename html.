@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COOKIE HOUSE 🍪</title>
+<style>
+body{margin:0;background:#fff8ef;color:#321b12;font-family:Arial;text-align:center}
+header{background:#321b12;color:white;padding:25px}
+h1{font-size:38px;color:#e8b879}
+.container{padding:25px}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:15px}
+.card{background:white;padding:20px;border-radius:18px;box-shadow:0 4px 15px #0001}
+.card h3{margin:10px}
+button{background:#321b12;color:white;border:0;padding:12px 20px;border-radius:20px;cursor:pointer}
+.price{color:#a45c32;font-weight:bold}
+#cart{background:#f0dfce;padding:20px;margin:20px;border-radius:15px}
+</style>
+</head>
+<body>
+<header>
+<h1>COOKIE HOUSE 🍪</h1>
+<p>100 نكهة من السعادة</p>
+</header>
+<div class="container">
+<input id="search" placeholder="ابحث عن نكهتك..." oninput="showProducts()">
+<div class="products" id="products"></div>
+<div id="cart">
+<h2>🛒 سلة المشتريات</h2>
+<div id="items">السلة فارغة</div>
+<h3 id="total">الإجمالي: 0 ر.س</h3>
+<button onclick="checkout()">إكمال الدفع</button>
+</div>
+</div>
+<script>
+const names = [
+"تشوكليت تشيبس","دبل شوكولاتة","ريد فلفت","سولتد كراميل","بيستاشيو",
+"وايت شوكليت","ثلاث شوكولاتة","براوني فادج","نوتيلا","لوتس",
+"أوريو","كيندر","كيندر بوينو","مارشميلو","زبدة الفول السوداني",
+"ماكاديميا ووايت شوكليت","بندق وشوكولاتة","لوز محمص","جوز بيكان","جوز الهند",
+"تريبل تشوكليت","دارك شوكليت","ميلك شوكليت","شوكولاتة بالنعناع","موكا",
+"قهوة إسبريسو","كراميل ماكياتو","سينابون","قرفة وسكر","تشيزكيك فراولة",
+"تشيزكيك توت","ليمون","ليمون وتوت","فراولة وكريمة","توت أزرق",
+"رازبيري وايت شوكليت","مانجو","جوز الهند والمانجو","موز وشوكولاتة","موز كراميل",
+"تفاح وقرفة","فطيرة التفاح","قرع بالقرفة","جزر وبهارات","عسل وشوفان",
+"شوفان وزبيب","زبدة بنية","فانيلا فرنسية","فانيلا وحبيبات ملونة","سمورز",
+"مارشميلو محمص","كراميل بيكان","كراميل مملح وشوكولاتة","طحينة وعسل","طحينة وشوكولاتة",
+"هيل وسكر","زعفران وفانيلا","تمر وقرفة","تمر وطحينة","قهوة عربية",
+"كرك","حليب بالزعفران","حلاوة طحينية","فستق وورد","فستق أبيض",
+"لوز وورد","بندق وكراميل","جوز عين الجمل","سمسم وعسل","بذور الشيا والليمون",
+"ماتشا ووايت شوكليت","شاي أخضر وفانيلا","تيراميسو","قهوة وكراميل","بسكوف ووايت شوكليت",
+"دولسي دي ليتشي","حليب مكثف","حليب وشوكولاتة","كيكة الجزر","ريد فلفت تشيزكيك",
+"براوني وكراميل","شوكولاتة وفلفل حار","برتقال وشوكولاتة","برتقال وفانيلا","كرز وشوكولاتة",
+"كرز وفانيلا","أناناس وجوز الهند","باشن فروت","توت مشكل","عنب وفانيلا",
+"رمان وورد","بطيخ وسكر","حلاوة قطن","جيلي فراولة","حبيبات شوكولاتة ملونة",
+"بريتزل وكراميل","بوب كورن وكراميل","رقائق الذرة والعسل","بطاطس حلوة وقرفة","سمورز لوتس"
+];
+let cart={};
+function showProducts(){
+let q=document.getElementById('search').value;
+document.getElementById('products').innerHTML=names.map((n,i)=>({n,i}))
+.filter(x=>x.n.includes(q)).map(x=>`
+<div class="card">
+<div style="font-size:45px">🍪</div>
+<h3>${x.n}</h3>
+<p class="price">${10+(x.i%10)} ر.س</p>
+<button onclick="add(${x.i})">أضف للسلة +</button>
+</div>`).join('');
+}
+function add(i){cart[i]=(cart[i]||0)+1;showCart()}
+function showCart(){
+let total=0;
+let html='';
+for(let i in cart){
+let price=10+(i%10);
+total+=price*cart[i];
+html+=`<p>${names[i]} × ${cart[i]} — ${price*cart[i]} ر.س</p>`;
+}
+document.getElementById('items').innerHTML=html||'السلة فارغة';
+document.getElementById('total').innerText='الإجمالي: '+total+' ر.س';
+}
+function checkout(){
+alert('آسف، لا يمكن إتمام أي عملية دفع.');
+}
+showProducts();
+</script>
+</body>
+</html>
